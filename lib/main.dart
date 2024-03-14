@@ -9,7 +9,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       title: 'Countdown Timer',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -27,10 +26,19 @@ class CountdownScreen extends StatefulWidget {
 class _CountdownScreenState extends State<CountdownScreen> {
   int _durationInSeconds = 0;
   int _endTime = DateTime.now().millisecondsSinceEpoch;
+  bool _isCountingDown = false;
 
   void _startCountdown() {
     setState(() {
       _endTime = DateTime.now().millisecondsSinceEpoch + _durationInSeconds * 60 * 1000;
+      _isCountingDown = true;
+    });
+  }
+
+  void _restartCountdown() {
+    setState(() {
+      _endTime = DateTime.now().millisecondsSinceEpoch + _durationInSeconds * 60 * 1000;
+      _isCountingDown = true;
     });
   }
 
@@ -61,7 +69,7 @@ class _CountdownScreenState extends State<CountdownScreen> {
               ),
               SizedBox(height: 20),
               ElevatedButton(
-                onPressed: _startCountdown,
+                onPressed: _isCountingDown ? null : _startCountdown,
                 child: Text('Bắt đầu đếm ngược'),
               ),
               SizedBox(height: 20),
@@ -71,6 +79,11 @@ class _CountdownScreenState extends State<CountdownScreen> {
                 textStyle: TextStyle(fontSize: 48),
               )
                   : Container(),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: _restartCountdown,
+                child: Text('Restart'),
+              ),
             ],
           ),
         ),
